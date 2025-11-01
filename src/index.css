@@ -1,5 +1,7 @@
 body{
-    background-image: url(../src/assets/Moonlit.jpg);
     background-size: cover;
     padding: 10px;
+    /* background-image: url(../src/assets/Moonlit.jpg); */
+    background: linear-gradient(to bottom, #0f172a, #0b1320, #000000);
+    color: white;
 }
