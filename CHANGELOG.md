@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented here.  
 
+## [1.2.1] - 2025-11-01
+### Changed
+- Redesigned the **About** and **Contact** pages with improved UI and layout.
+- Enhanced gradient backgrounds and glassmorphism effects for a cohesive design.
+- Refined text hierarchy, spacing, and alignment for better readability.
+- Applied consistent color accents and transitions across all pages.
+
 ## [1.2.0] - 2025-11-01
 ### Added
 - Redesigned and modernized the Navbar using TailwindCSS.
