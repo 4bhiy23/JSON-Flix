@@ -3,16 +3,15 @@ import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./App.css";
 import Navbar from "./assets/components/Navbar";
-import Card from "./assets/components/Card";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
 import About from "./pages/About";
 
-
-
 function App() {
   const [searchQuery, setSearchQuery] = useState(""); // user input
   const [searchResults, setSearchResults] = useState([]); // movies from TMDB
+  const [likedMovies, setLikedMovies] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("all");
 
   const handleChange = (e) => {
     setSearchQuery(e.target.value);
@@ -29,6 +28,14 @@ function App() {
     if (searchQuery.trim()) {
       search(searchQuery);
     }
+  };
+
+  const toggleLike = (movieId) => {
+    setLikedMovies((prevLikedMovies) =>
+      prevLikedMovies.includes(movieId)
+        ? prevLikedMovies.filter((id) => id !== movieId)
+        : [...prevLikedMovies, movieId]
+    );
   };
 
   // The functions that displays the searched movie
@@ -69,9 +76,27 @@ function App() {
     fetchTrending();
   }, []);
 
+  const filteredMovies = searchResults.filter((movie) => {
+    if (activeFilter === "liked") {
+      return likedMovies.includes(movie.id);
+    }
+
+    if (activeFilter === "top-rated") {
+      return movie.vote_average >= 7;
+    }
+
+    if (activeFilter === "recent") {
+      return movie.release_date
+        ? new Date(movie.release_date).getFullYear() >= 2020
+        : false;
+    }
+
+    return true;
+  });
+
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <Routes>
         <Route
           path="/"
@@ -80,7 +105,11 @@ function App() {
               handleChange={handleChange}
               handleKeypress={handleKeypress}
               handleClick={handleClick}
-              searchResults={searchResults}
+              searchResults={filteredMovies}
+              likedMovies={likedMovies}
+              activeFilter={activeFilter}
+              setActiveFilter={setActiveFilter}
+              toggleLike={toggleLike}
             />
           }
         />
